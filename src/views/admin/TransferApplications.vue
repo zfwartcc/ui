@@ -155,7 +155,7 @@ export default {
         } else {
           console.log('API call failed with status code: ' + response.status);
         }
-        console.log(response.data.data.transfers);
+        //console.log(response.data.data.transfers); //to check the api response pull data 
         this.transfers = response.data.data.transfers;
         if ((response.status === 200) && (this.transfers.length !== 0)){
           this.toastSuccess("Transfer applications received");
@@ -168,7 +168,7 @@ export default {
     },
     async approveTransfer(id) {
       try {
-        let response = await vatusaApi.put(`/facility/ZNY/transfers/${id}`, {
+        await vatusaApi.put(`/facility/ZNY/transfers/${id}`, {
           data: {
             action: "approve",
             by: 908962,
