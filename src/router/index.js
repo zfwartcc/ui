@@ -223,6 +223,10 @@ const routes = [
 				component: () => import('../views/admin/feedback/Index.vue')
 			},
 			{
+				path: 'transfer/applications',
+				component: () => import('../views/admin/TransferApplications.vue')
+			},
+			{
 				path: 'visit/applications',
 				component: () => import('../views/admin/VisitApplications.vue')
 			},
