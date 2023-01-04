@@ -42,7 +42,27 @@
       </div>
       <p class="as_of">As of {{ getZuluTime() }}z</p>
     </div>
-
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title"> Controller Schedule </span>
+      </div>
+      <div id="positions">
+        <div v-if="!positions" class="loading_container">
+          <Spinner />
+        </div>
+        <div v-else-if="positions.length > 0">
+          <span class="positions" v-for="position in positions" :key="position._id">
+            <span
+              ><strong>{{ position.user }}</strong></span
+              >
+            <span>{{ secondsToHms(item.len) }}</span>
+          </span>
+        </div>
+        <div v-else>
+          <p>There is no planned ATC availability for this date.</p>
+        </div>
+    </div>
+      </div>
     <div class="card" v-if="user.isLoggedIn">
       <div class="card-content">
         <span class="card-title">
@@ -107,11 +127,13 @@ import AtcOnlineItem from "./AtcOnlineItem.vue";
 import PilotOnlineItem from "./PilotOnlineItem.vue";
 import { zabApi } from "@/helpers/axios.js";
 import { mapState } from "vuex";
+import AtcScheduleItem from "./AtcScheduleitem.vue"
 
 export default {
   components: {
     AtcOnlineItem,
     PilotOnlineItem,
+    AtcScheduleItem,
   },
   data() {
     return {
@@ -121,6 +143,9 @@ export default {
       ratings: null,
       airports: ["KORD","KCHI","KSBN","KRFD","KPIA","KMSN","KMKG","KMLI","KMKE","KGRR","KFWA","KCMI","KCID","KAZO","KALO","KEKM","KMDW","KLAF","KBTL","KOSH","KUGN","KENW","KPWK"],
       top: null,
+      positions: [],
+      currentDate: new Date(),
+      showModal: false,
     };
   },
   async mounted() {
