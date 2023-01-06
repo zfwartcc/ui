@@ -91,25 +91,16 @@
         },
         async fetchPositions() {
           try {
-            const { response } = await zabApi.get('/online/scheduledpositions', {
+            const { data } = await zabApi.get('/online/scheduledpositions', {
               params: {
                 day: this.currentDate
               },
             });
-            //console.log(response.statusCode);
-            //console.log(response);
-            //console.log(response.data);
-            if (response.status === 303) {    
-              this.positions = null;
-            } else if (response.status >= 500) {    
-              console.error(`Server error: ${response.status}`);
-            } else if (response.status >= 400) {
-              console.error(`Client error: ${response.status}`);
-            } else {
-              this.positions = response.data;
-            }
-          } catch (error) {
-            console.error(error);
+            console.log(data);
+            //console.log(data.data);
+            this.positions = data;
+            } catch (error) {
+              console.error(error);
           }
         },
       }
