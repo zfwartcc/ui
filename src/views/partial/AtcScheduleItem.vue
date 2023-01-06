@@ -1,6 +1,7 @@
 <template>
-    <div>
-      <div>
+  <div class="card">
+    <div class="card-content">
+        <span class="card-title"> Controller Schedule </span>
         <button @click="prevDate">Prev</button>
         {{ currentDate }}
         <button @click="nextDate">Next</button>
@@ -25,14 +26,14 @@
       </table>
       <button @click="openAddModal">Add Position</button>
     </div>
-    <div class="modal-wrapper" v-bind:class="{ 'is-open': showModal }" style="z-index: 1000;">
+   <!-- <div class="modal-wrapper" v-bind:class="{ 'is-open': showModal }" style="z-index: 1000;">
       <div class="modal">
         <div class="modal-header">
           <h3>Add Position</h3>
           <button @click="closeModal">&times;</button>
         </div>
         <div class="modal-body">
-          <!-- Form to add a new position -->
+          <-- Form to add a new position ->
           <form @submit.prevent="addPosition">
             <div class="form-group">
               <label for="user">User</label>
@@ -56,7 +57,7 @@
           </form>
         </div>
       </div>
-    </div>
+    </div>-->
   </template>  
 
   <script>
@@ -65,15 +66,9 @@
   export default {
     data() {
         return {
-            positions: [],
             currentDate: new Date().toISOString().substring(0, 10),
             showModal: false,
-            newPosition: {
-                user: null,
-                zuluTime: null,
-                localTime: null,
-                position: null,
-            }
+            positions: []
         };
     },
     created() {
@@ -95,21 +90,30 @@
             this.fetchPositions();
         },
         async fetchPositions() {
-            try {
-                const start = new Date(`${this.currentDate}T00:00:00.000Z`);
-                const end = new Date(`${this.currentDate}T23:59:59.999Z`);
-                const { response } = await zabApi.get('/online/scheduledpositions', {
-                    params: {
-                        day: { $gte: start, $lt: end },
-                    },
-                });
-            this.positions = response;
-            } catch (error) {
-                console.error(error);
+          try {
+            const { response } = await zabApi.get('/online/scheduledpositions', {
+              params: {
+                day: this.currentDate
+              },
+            });
+            //console.log(response.statusCode);
+            //console.log(response);
+            //console.log(response.data);
+            if (response.status === 303) {    
+              this.positions = null;
+            } else if (response.status >= 500) {    
+              console.error(`Server error: ${response.status}`);
+            } else if (response.status >= 400) {
+              console.error(`Client error: ${response.status}`);
+            } else {
+              this.positions = response.data;
             }
+          } catch (error) {
+            console.error(error);
+          }
         },
-    },
-}
+      }
+  }
   </script>
 
   <style>
