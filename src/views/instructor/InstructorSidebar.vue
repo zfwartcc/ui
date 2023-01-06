@@ -9,7 +9,7 @@
 				Controllers
 				<div class="secondary-content"><i class="material-icons">people</i></div>
 			</router-link>
-			<router-link to="/ins/solo" class="collection-item">
+			<router-link to="/ins/solo" class="collection-item" v-if="requiresAuth(['atm', 'datm', 'ta', 'wm', 'ins'])">
 				Solo Certifications
 				<div class="secondary-content"><i class="material-icons">streetview</i></div>
 			</router-link>
@@ -30,10 +30,27 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex';
 
+export default {
+	methods: {
+		requiresAuth(roles) {
+			const havePermissions = roles.some(r => this.user.data.roleCodes.includes(r));
+			if(havePermissions) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	},
+	computed: {
+		...mapState('user', [
+			'user'
+		])
+	}
 };
 </script>
+
 
 <style scoped lang="scss">
 .card.admin_sidebar {
