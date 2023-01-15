@@ -3,82 +3,140 @@
 		<div class="card-content">
 			<div class="row row_no_margin">
 				<div class="card-title col s8"><span class="card-title">Controller Schedule</span></div>
-				<div class="col s4"><router-link to="/dash/scheduling/new"><span class="btn new_event_button right">Schedule</span></router-link><span class="btn new_event_button right">Next</span><span class="btn new_event_button right">Prev</span></div>
+				<div class="col s4"><router-link to="/dash/scheduling/new"><span class="btn new_event_button right">Schedule</span></router-link><span class="btn new_event_button right" @click.native="nextDate">Next</span><span class="btn new_event_button right" @click.native="prevDate">Prev</span></div>
 			</div>
 		</div>
-		<div class="loading_container" v-if="!positions === null">
-			<Spinner />
-		</div>
-		<p class="no_schedule" v-else-if="positions && positions.length === 0">There are no scheduled sessions for {{ currentDate }}.</p>
-		<div class="session_wrapper" v-else>
-			<table class="session_list striped">
-				<thead class="session_list_head">
-					<tr>
-						<th>Controller</th>
-						<th>Start Time</th>
-						<th>End Time</th>
-						<th>position</th>
-					</tr>
-				</thead>
-				<tbody class="position_list_row" v-if="positions">
-					<tr v-for="position in positions" :key="position._id">
-						<td>{{ cid }}</td>
-						<td>{{dtLong(session.startTime)}}</td>
-						<td>{{dtLong(session.endTime)}}</td>
-						<td>{{session.instructor ? (session.instructor.fname + ' ' + session.instructor.lname) : 'Unfulfilled'}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+		<div v-if="sessions === null">
+            <div class="card-content loading">
+                <Spinner />
+            </div>
+        </div>
+        <div v-else>
+            <div class="card-content">
+                <p class="no_schedule" v-if="sessions && sessions.length === 0">
+                    There is no ATC availability scheduled for {{currentDate}}.
+                </p>
+            </div>
+            <div class="table_wrapper" v-if="sessions && sessions.length !== 0">
+                <p class="date"> {{ currentDate }} </p>
+                <table>
+                    <thead>
+                        <tr>
+						    <th>Controller</th>
+						    <th>Start Time</th>
+						    <th>End Time</th>
+						    <th>Position</th>
+                            <th class="options">Options</th>
+					    </tr>
+				    </thead>
+				    <tbody class="position_list_row" v-if="sessions">
+					    <tr v-for="session in sessions" :key="session._id">
+						    <td>{{ session.submitter.fname }} {{ session.submitter.lname }}</td> 
+						    <td>{{dtLong(session.startTime)}}</td>
+						    <td>{{dtLong(session.endTime)}}</td>
+						    <td>{{ session.facility }}_{{ session.position }}</td>
+                            <td class="options">
+								<router-link data-position="top" data-tooltip="Edit Session" class="tooltipped" :to="`/scheduling/sessions/${session._id}`"><i class="material-icons">edit</i></router-link>
+								<a :href="`#modal_delete_${session._id}`" data-position="top" data-tooltip="Remove Session" class="tooltipped modal-trigger"><i class="material-icons red-text text-darken-2">delete</i></a>
+						</td>
+					    </tr>
+                        <div :id="`modal_delete_${sessions._id}`" class="modal modal_delete">
+								<div class="modal-content">
+									<h4>Delete Session?</h4>
+									<p>This will remove your presently scheduled session.</p>
+                                    <p>This only affects the display on the main page.</p>
+								</div>
+								<div class="modal-footer">
+									<a href="#!" @click="removeSession(sessions._id)" class="btn waves-effect">Remove</a>
+									<a href="#!" class="btn-flat waves-effect modal-close">Cancel</a>
+								</div>
+							</div>
+				    </tbody>
+			    </table>
+		    </div>
+	    </div>
+    </div>
 </template>  
 
-  <script>
-  import { zabApi } from "@/helpers/axios.js";
+<script>
+import { zabApi } from "@/helpers/axios.js";
   
-  export default {
+
+
+export default {
+    name: 'SchedulingDash',
+	title: 'Scheduling',
     data() {
         return {
             currentDate: new Date().toISOString().substring(0, 10),
             showModal: false,
-            positions: []
+            sessions: []
         };
     },
-    created() {
-        this.fetchPositions();
+    mounted() {
+        this.getSessions();
+        this.$watch('sessions', () => {
+            this.$nextTick(() => {
+                M.Modal.init(document.querySelectorAll('.modal'), {
+                    preventScrolling: false
+                });
+                M.Tooltip.init(document.querySelectorAll('.tooltipped'), {
+                    margin: 0
+                });
+            });
+        });
     },
     methods: {
-        openAddModal(){
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-        },
         prevDate() {
             this.currentDate = new Date(new Date(this.currentDate).setDate(new Date(this.currentDate).getDate() - 1)).toISOString().substring(0, 10);
-            this.fetchPositions();
+            this.getSessions();
         },
         nextDate() {
             this.currentDate = new Date(new Date(this.currentDate).setDate(new Date(this.currentDate).getDate() + 1)).toISOString().substring(0, 10);
-            this.fetchPositions();
+            this.getSessions();
         },
-        async fetchPositions() {
+        async getSessions() {
           try {
-            const { data } = await zabApi.get('/online/scheduledpositions', {
+            const { data } = await zabApi.get('/scheduling/sessions', {
               params: {
-                day: this.currentDate
+                startTime: this.currentDate
               },
             });
             console.log(data);
             //console.log(data.data);
-            this.positions = data;
+            this.sessions = data;
+            console.log(this.sessions);
             } catch (error) {
               console.error(error);
-          }
+            }
         },
-      }
-  }
-  </script>
+        async removeSession(_id) {
+            try {
+                console.log(this.sessions);
+                this.toastInfo('Removing session...');
+                let sessionToRemove = this.sessions.find(session => session._id === _id);
+                console.log(sessionToRemove)
+                if (!sessionToRemove) {
+                    console.error('Session not found');
+                    this.toastError('Session not found');
+                    return;
+                }
+                // Make a delete request to the API
+                const { data } = await zabApi.delete(`/scheduling/sessions/${sessionToRemove._id}`, {
+                    data: {
+                        reason: this.reason
+                    }
+                });
+                console.log('Session removed successfully');
+                this.toastSuccess('Session removed successfully');
+            } catch (error) {
+                console.error(error);
+                this.toastError('Error removing session');
+            }
+        },
+    }
+}
+</script>
 
 <style>
 

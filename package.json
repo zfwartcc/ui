@@ -15,7 +15,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@materializecss/materialize": "^1.1.0-alpha",
+    "@materializecss/materialize": "^1.2.1",
     "@sentry/browser": "^6.15.0",
     "@sentry/integrations": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
@@ -28,6 +28,7 @@
     "flatpickr": "^4.6.9",
     "luxon": "^2.1.1",
     "metar-parser": "^1.0.0",
+    "moment-timezone": "^0.5.40",
     "vue": "^3.2.22",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"

@@ -226,10 +226,10 @@ const routes = [
 				path: 'feedback',
 				component: () => import('../views/admin/feedback/Index.vue')
 			},
-			{
+			/*{
 				path: 'transfer/applications',
 				component: () => import('../views/admin/TransferApplications.vue')
-			},
+			},*/
 			{
 				path: 'visit/applications',
 				component: () => import('../views/admin/VisitApplications.vue')
@@ -261,6 +261,18 @@ const routes = [
 			{
 				path: 'feedback',
 				component: () => import('../views/dashboard/Feedback.vue')
+			},
+			{
+				path: 'scheduling',
+				component: () => import('../views/dashboard/scheduling/Index.vue')
+			},
+			{
+				path: 'scheduling/new',
+				component: () => import('../views/dashboard/scheduling/Request.vue')
+			},
+			{
+				path: 'scheduling/session/:_id',
+				component: () => import('../views/dashboard/scheduling/Edit.vue')
 			},
 			{
 				path: 'training',

@@ -53,8 +53,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 import moment from 'moment-timezone';
 
 export default {
-	name: 'ScheduleSessions ',
-	title: 'Schedule Sessions',
+	name: 'EditScheduleSessions ',
+	title: 'Edit Session',
 	data() {
 		return {
 			request: {
@@ -107,7 +107,7 @@ export default {
 		});
 	},
 	methods: {
-		async submitRequest() {
+		async editRequest() {
 			try {
 				if(!this.selectedOption) {
 					this.toastError('You must select a facility');
@@ -115,7 +115,7 @@ export default {
 					this.toastError('You must select a position');
 				} else{
 					this.makingRequest = true;
-					const {data} = await zabApi.post('/scheduling/request/new', {
+					const {data} = await zabApi.put('/scheduling/request/new', {
 						...this.request,
 						startTime: `${this.$refs.start_date.value}`,
 						endTime: `${this.$refs.end_date.value}`,
