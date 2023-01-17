@@ -30,7 +30,7 @@
 						<div class="input-field col s6">
 							<select id='select-position' class="materialize-select" v-model="selectedFacility">
 								<option value="" disabled selected>Select a Position</option>
-								<option v-for="pos in selectedFacility" :key="pos.id" :value="pos.id">{{pos.name}}</option>
+								<option v-for="pos in selectedFacility" :key="pos.id" :value="pos">{{pos.name}}</option>
 
 							</select>
 							<label>Position <span class="red-text">*</span></label>

@@ -34,7 +34,7 @@
 						    <td>{{ session.submitter.fname }} {{ session.submitter.lname }}</td> 
 						    <td>{{dtLong(session.startTime)}}</td>
 						    <td>{{dtLong(session.endTime)}}</td>
-						    <td>{{ session.facility }}_{{ session.position }}</td>
+						    <td>{{ session.facility }}_{{ session.position.id }}</td>
                             <td class="options">
 								<router-link data-position="top" data-tooltip="Edit Session" class="tooltipped" :to="`/scheduling/sessions/${session._id}`"><i class="material-icons">edit</i></router-link>
 								<a :href="`#modal_delete_${session._id}`" data-position="top" data-tooltip="Remove Session" class="tooltipped modal-trigger"><i class="material-icons red-text text-darken-2">delete</i></a>

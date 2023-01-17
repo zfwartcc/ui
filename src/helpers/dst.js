@@ -1,4 +1,4 @@
-function isDaylightSavingTime() {
+export function isDaylightSavingTime() {
     // Retrieve the current date and time in the Central time zone
     const currentDateString = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
     const currentDate = new Date(currentDateString);

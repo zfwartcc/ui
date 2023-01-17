@@ -1,170 +1,82 @@
 <template>
-  <div class="card">
-    <div class="card-content">
-        <span class="card-title"> Controller Schedule </span>
-        <button @click="prevDate">Prev</button>
-        {{ currentDate }}
-        <button @click="nextDate">Next</button>
+  <div v-if="sessions === null" class="loading_container">
+    <Spinner />
+  </div>
+  <div v-else-if="sessions.length === 0">
+    <p>There is no planned ATC availability for this date.</p>
+  </div>
+  <div v-else>
+    <div class="card" v-for="session in sessions" :key="session._id">
+      <div class="card-header">
+        <p>{{ session.facility2.name }} {{ session.position.name }}</p>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Zulu Time</th>
-            <th>Local Time</th>
-            <th>Position</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="position in positions" :key="position._id">
-            <td>{{ position.user }}</td>
-            <td>{{ position.zuluTime }}</td>
-            <td>{{ position.localTime }}</td>
-            <td>{{ position.position }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button @click="openAddModal">Add Position</button>
+      <div class="card-body">
+        <p>{{ session.submitter.fname }} {{ session.submitter.lname }}</p>
+        <p>{{ convertTime(session.startTime) }}-{{ convertTime(session.endTime) }} {{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
+      </div>
     </div>
-   <!-- <div class="modal-wrapper" v-bind:class="{ 'is-open': showModal }" style="z-index: 1000;">
-      <div class="modal">
-        <div class="modal-header">
-          <h3>Add Position</h3>
-          <button @click="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <-- Form to add a new position ->
-          <form @submit.prevent="addPosition">
-            <div class="form-group">
-              <label for="user">User</label>
-              <input type="text" id="user" v-model="newPosition.user">
-            </div>
-            <div class="form-group">
-              <label for="zuluTime">Zulu Time</label>
-              <input type="text" id="zuluTime" v-model="newPosition.zuluTime">
-            </div>
-            <div class="form-group">
-              <label for="localTime">Local Time</label>
-              <input type="text" id="localTime" v-model="newPosition.localTime">
-            </div>
-            <div class="form-group">
-              <label for="position">Position</label>
-              <input type="text" id="position" v-model="newPosition.position">
-            </div>
-            <div class="form-group">
-              <button type="submit">Add</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>-->
-  </template>  
+  </div>
+</template>
 
-  <script>
-  import { zabApi } from "@/helpers/axios.js";
-  
-  export default {
-    data() {
-        return {
-            currentDate: new Date().toISOString().substring(0, 10),
-            showModal: false,
-            positions: []
-        };
-    },
-    created() {
-        this.fetchPositions();
-    },
-    methods: {
-        openAddModal(){
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-        },
-        prevDate() {
-            this.currentDate = new Date(new Date(this.currentDate).setDate(new Date(this.currentDate).getDate() - 1)).toISOString().substring(0, 10);
-            this.fetchPositions();
-        },
-        nextDate() {
-            this.currentDate = new Date(new Date(this.currentDate).setDate(new Date(this.currentDate).getDate() + 1)).toISOString().substring(0, 10);
-            this.fetchPositions();
-        },
-        async fetchPositions() {
-          try {
-            const { data } = await zabApi.get('/online/scheduledpositions', {
-              params: {
-                day: this.currentDate
-              },
-            });
-            console.log(data);
-            //console.log(data.data);
-            this.positions = data;
-            } catch (error) {
-              console.error(error);
-          }
-        },
+<script>
+import { zabApi } from "@/helpers/axios.js";
+
+export default {
+  props:{
+    currentDate: {
+      type: Date,
+      required: true
+    }
+  },
+  data() {
+    return {
+      sessions: null,
+      formattedDate: null,
+      localDate: null,
+      sessionsLength: 0,
+    };
+  },
+  created() {
+    this.localDate = this.currentDate
+    this.fetchSessions();
+    console.log(this.fetchSessions);
+    
+  },
+  methods: {
+    async fetchSessions() {
+      try {
+        const formattedDate = this.localDate.toISOString().substring(0, 10);
+        console.log(formattedDate);
+        const { data } = await zabApi.get('/scheduling/sessions', {
+          params: {
+            startTime: formattedDate,
+          },
+        });
+        console.log(data);
+        //console.log(data.data);
+        this.sessions = data;
+        this.sessionsLength = this.sessions.length
+      } catch (error) {
+        console.error(error);
       }
-  }
-  </script>
-
-  <style>
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  .modal-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(10, 10, 10, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 8;
-  transition: all 0.3s ease-in-out;
-  visibility: hidden;
-  opacity: 0;
+    },
+    convertTime(time) {
+      let date = new Date(time);
+      let offset = -5; // Default to CST
+      const isDST = date.toLocaleString("en-US", {timeZone: "America/Chicago"}).includes("CDT");
+      offset = isDST ? -6 : offset;
+      date = new Date(date.getTime() + offset * 60 * 60 * 1000);
+      return date.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + (isDST ? " CDT" : " CST");
+    }
+  },
+  watch: {
+    currentDate(newValue) {
+      this.localDate = newValue
+      this.fetchSessions()
+    }
+  },
 }
+</script>
 
-.modal-wrapper.is-open {
-  visibility: visible;
-  display: block;
-  opacity: 1;
-}
-
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  z-index: 9;
-}
-
-.modal-header {
-  padding: 20px;
-  border-bottom: 1px solid #ccc;
-  z-index: 10;
-}
-
-.modal-body {
-  padding: 20px;
-  z-index: 10;
-
-}
-
-  </style>
+<style>
+</style>

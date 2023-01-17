@@ -46,10 +46,6 @@
       <div class="card-content">
         <span class="card-title"> Controller Schedule </span>
         <div id="positions">
-          <div v-if="positions === null" class="loading_container">
-            <Spinner />
-          </div>
-        <div v-else-if="positions.length >= 0">
           <div class="date-display">
             <div class="date-container" style="float: left;">
               <p>{{ formatDate(currentDate) }}</p>
@@ -57,22 +53,12 @@
             <div class="button-container" style="margin-left: 220px;">
               <button @click="previousDay">&lt</button>
               <button @click="nextDay">&gt</button>
-              <template v-if="user.isLoggedIn">
-                <button @click="AddAvailability">+</button>
-              </template>
             </div>
           </div>
-        <span class="positions" v-for="position in positions" :key="position._id">
-          <span><strong>{{ position.user }}</strong></span>
-          <span>{{ secondsToHms(item.len) }}</span>
-        </span>
-      </div>
-      <div v-else>
-        <p>There is no planned ATC availability for this date.</p>
+            <AtcScheduleItem :currentDate="currentDate"></AtcScheduleItem>
+        </div>
       </div>
     </div>
-  </div>
-      </div>
     <div class="card" v-if="user.isLoggedIn">
       <div class="card-content">
         <span class="card-title">
@@ -154,13 +140,6 @@ export default {
       airports: ["KORD","KCHI","KSBN","KRFD","KPIA","KMSN","KMKG","KMLI","KMKE","KGRR","KFWA","KCMI","KCID","KAZO","KALO","KEKM","KMDW","KLAF","KBTL","KOSH","KUGN","KENW","KPWK"],
       top: null,
       positions: [],
-      showModal: false,
-      formData: {
-        startTime: '',
-        endTime: '',
-        day: '',
-        position: ''
-      },
       currentDate: new Date()
     };
   },
@@ -170,10 +149,6 @@ export default {
     setInterval(() => {
       this.getOnline();
     }, 15000);
-    await this.openModal();
-    M.Modal.init(document.querySelectorAll(".modal"), {
-      preventScrolling: false,
-    });
   },
   methods: {
     async getOnline() {
@@ -196,14 +171,6 @@ export default {
     },
     nextDay() {
       this.currentDate = new Date(this.currentDate.getTime() + 86400000);
-    },
-    async submitForm() {
-      try {
-        const response = await zabApi.post('/online/scheduledpostions', this.formData);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
     },
     getZuluTime() {
       return new Date().toLocaleString("en-US", {
@@ -230,12 +197,6 @@ export default {
         .substring(11, 19);
       return hms.replace(/^(\d+)/, (h) => `${+h + days * 24}`.padStart(2, "0"));
     },
-    openModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
-    }
   },
   computed: {
     ...mapState("user", ["user"]),
