@@ -13,11 +13,11 @@
 					<form class="row row_no_margin" @submit.prevent=submitRequest>
 						<div class="input-field col s12">
 							<input id="start_date" type="text" ref="start_date" required>
-							<label for="start_date">Start Time (Local)<span class="red-text">*</span></label>
+							<label for="start_date">Start Time (Zulu)<span class="red-text">*</span></label>
 						</div>
 						<div class="input-field col s12">
 							<input id="end_date" type="text" ref="end_date" required>
-							<label for="end_date">End Time (Local)<span class="red-text">*</span></label>
+							<label for="end_date">End Time (Zulu)<span class="red-text">*</span></label>
 						</div>
 						<div class="input-field col s6">
 							<select v-model="selectedOption" class="materialize-select" @change="updateSelectedFacility" id="select-facility">

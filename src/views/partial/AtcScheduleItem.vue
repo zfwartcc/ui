@@ -1,18 +1,20 @@
 <template>
-  <div v-if="sessions === null" class="loading_container">
-    <Spinner />
-  </div>
-  <div v-else-if="sessions.length === 0">
-    <p>There is no planned ATC availability for this date.</p>
-  </div>
-  <div v-else>
-    <div class="card" v-for="session in sessions" :key="session._id">
-      <div class="card-header">
-        <p>{{ session.facility2.name }} {{ session.position.name }}</p>
-      </div>
-      <div class="card-body">
-        <p>{{ session.submitter.fname }} {{ session.submitter.lname }}</p>
-        <p>{{ convertTime(session.startTime) }}-{{ convertTime(session.endTime) }} {{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
+  <div id="scheduling">
+    <div v-if="sessions === null" class="loading_container">
+      <Spinner />
+    </div>
+    <div v-else-if="sessions.length === 0">
+      <p>There is no planned ATC availability for this date.</p>
+    </div>
+    <div v-else>
+      <div class="card" v-for="session in sessions" :key="session._id">
+        <div class="card-header">
+          <p>{{ session.facility2.name }} {{ session.position.name }}</p>
+        </div>
+        <div class="card-body">
+          <p>{{ session.submitter.fname }} {{ session.submitter.lname }}</p>
+          <p>{{ convertTime(session.startTime) }}-{{ convertTime(session.endTime) }} {{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -33,13 +35,11 @@ export default {
       sessions: null,
       formattedDate: null,
       localDate: null,
-      sessionsLength: 0,
     };
   },
   created() {
     this.localDate = this.currentDate
     this.fetchSessions();
-    console.log(this.fetchSessions);
     
   },
   methods: {
@@ -53,9 +53,7 @@ export default {
           },
         });
         console.log(data);
-        //console.log(data.data);
         this.sessions = data;
-        this.sessionsLength = this.sessions.length
       } catch (error) {
         console.error(error);
       }
@@ -78,5 +76,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 </style>

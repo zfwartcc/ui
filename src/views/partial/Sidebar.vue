@@ -45,18 +45,16 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title"> Controller Schedule </span>
-        <div id="positions">
-          <div class="date-display">
-            <div class="date-container" style="float: left;">
-              <p>{{ formatDate(currentDate) }}</p>
-            </div>
-            <div class="button-container" style="margin-left: 220px;">
-              <button @click="previousDay">&lt</button>
-              <button @click="nextDay">&gt</button>
-            </div>
+        <div class="date-display">
+          <div class="date-container" style="float: left;">
+            <p>{{ formatDate(currentDate) }}</p>
           </div>
-            <AtcScheduleItem :currentDate="currentDate"></AtcScheduleItem>
+          <div class="button-container" style="margin-left: 220px;">
+            <button @click="previousDay">&lt</button>
+            <button @click="nextDay">&gt</button>
+          </div>
         </div>
+          <AtcScheduleItem :currentDate="currentDate"></AtcScheduleItem>
       </div>
     </div>
     <div class="card" v-if="user.isLoggedIn">
@@ -272,11 +270,13 @@ export default {
 .date-display {
   display: flex;
   align-items: flex-start;
+  font-style: italic;
 }
 
 .date-container {
   display: flex;
   align-items: center;
+  font-style: italic;
 }
 
 .button-container {
