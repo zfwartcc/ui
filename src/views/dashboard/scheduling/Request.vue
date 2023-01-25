@@ -136,16 +136,16 @@ export default {
 			}
 		},
 		async getPositions() {
-			console.log(this.user);
+			//console.log(this.user);
 			const { data } = await zabApi.get('/scheduling/positions', { params: { certCodes: this.user.data.certCodes } });
 			this.positions = data;
-			console.log(data);
+			//console.log(data);
 		},
 		updateSelectedFacility() {
     		const filteredFacility = this.positions.find(positions => positions.code === this.selectedOption);
-			console.log(filteredFacility);
+			//console.log(filteredFacility);
 			this.selectedFacility = filteredFacility.positions;
-			console.log(this.selectedFacility);
+			//console.log(this.selectedFacility);
 			this.$nextTick(() => {
     			// Update Materialize select list here
     			M.FormSelect.init(document.querySelector('#select-position'), {height: 600});
