@@ -270,10 +270,10 @@ const routes = [
 				path: 'scheduling/new',
 				component: () => import('../views/dashboard/scheduling/Request.vue')
 			},
-			{
-				path: 'scheduling/session/:_id',
+			/*{
+				path: 'scheduling/session/:id',
 				component: () => import('../views/dashboard/scheduling/Edit.vue')
-			},
+			},*/
 			{
 				path: 'training',
 				component: () => import('../views/dashboard/training/Index.vue')

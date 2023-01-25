@@ -36,21 +36,24 @@
 						    <td>{{dtLong(session.endTime)}}</td>
 						    <td>{{ session.facility }}_{{ session.position.id }}</td>
                             <td class="options">
-								<router-link data-position="top" data-tooltip="Edit Session" class="tooltipped" :to="`/scheduling/sessions/${session._id}`"><i class="material-icons">edit</i></router-link>
+                                <template v-if="this.user.data.cid === session.submitter.cid || this.user.data.isMgt === true">
+								<!--<router-link data-position="top" data-tooltip="Edit Session" class="tooltipped" :to="`/scheduling/session/${session._id}`"><i class="material-icons">edit</i></router-link>-->
 								<a :href="`#modal_delete_${session._id}`" data-position="top" data-tooltip="Remove Session" class="tooltipped modal-trigger"><i class="material-icons red-text text-darken-2">delete</i></a>
+                                </template>
 						</td>
-					    </tr>
-                        <div :id="`modal_delete_${sessions._id}`" class="modal modal_delete">
+					    
+                        <div :id="`modal_delete_${session._id}`" class="modal modal_delete">
 								<div class="modal-content">
 									<h4>Delete Session?</h4>
 									<p>This will remove your presently scheduled session.</p>
                                     <p>This only affects the display on the main page.</p>
 								</div>
 								<div class="modal-footer">
-									<a href="#!" @click="removeSession(sessions._id)" class="btn waves-effect">Remove</a>
+									<a href="#!" @click="removeSession(session._id)" class="btn waves-effect">Remove</a>
 									<a href="#!" class="btn-flat waves-effect modal-close">Cancel</a>
 								</div>
 							</div>
+                        </tr>
 				    </tbody>
 			    </table>
 		    </div>
@@ -60,6 +63,7 @@
 
 <script>
 import { zabApi } from "@/helpers/axios.js";
+import { mapState } from 'vuex';
   
 
 
@@ -86,6 +90,9 @@ export default {
             });
         });
     },
+    computed: {
+        ...mapState('user', ['user']),
+    },
     methods: {
         prevDate() {
             this.currentDate = new Date(new Date(this.currentDate).setDate(new Date(this.currentDate).getDate() - 1)).toISOString().substring(0, 10);
@@ -102,20 +109,20 @@ export default {
                 startTime: this.currentDate
               },
             });
-            console.log(data);
+            //console.log(data);
             //console.log(data.data);
             this.sessions = data;
-            console.log(this.sessions);
+            //console.log(this.sessions);
             } catch (error) {
               console.error(error);
             }
         },
         async removeSession(_id) {
             try {
-                console.log(this.sessions);
+                //console.log(this.sessions);
                 this.toastInfo('Removing session...');
                 let sessionToRemove = this.sessions.find(session => session._id === _id);
-                console.log(sessionToRemove)
+                //console.log(sessionToRemove)
                 if (!sessionToRemove) {
                     console.error('Session not found');
                     this.toastError('Session not found');
@@ -127,8 +134,9 @@ export default {
                         reason: this.reason
                     }
                 });
-                console.log('Session removed successfully');
+                //console.log('Session removed successfully');
                 this.toastSuccess('Session removed successfully');
+                this.getSessions();
             } catch (error) {
                 console.error(error);
                 this.toastError('Error removing session');

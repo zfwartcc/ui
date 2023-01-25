@@ -53,7 +53,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import moment from 'moment-timezone';
 
 export default {
-	name: 'EditScheduleSessions ',
+	name: 'EditScheduleSessions',
 	title: 'Edit Session',
 	data() {
 		return {
@@ -62,7 +62,7 @@ export default {
 				position: '',
 				submitter: '',
 			},
-			positions: [],
+			session: null,
 			selectedFacility: '',
 			selectedOption: '',
 			makingRequest: false
@@ -70,11 +70,12 @@ export default {
 	},
 	created(){
 		this.getPositions();
-		this.selectedOption = '';
+		this.getSessionDetails();
 		
 	},
 	async mounted() {
 		await this.getPositions();
+		await this.getSessionDetails();
 		const today = new Date(new Date().toUTCString());
 
 		M.FormSelect.init(document.querySelectorAll('select'));
@@ -134,6 +135,11 @@ export default {
 			} catch(e) {
 				console.log(e);
 			}
+		},
+		async getSessionDetails() {
+			const {data} = await zabApi.get(`/scheduling/sessions/${this.$route.params.id}`);
+			this.session = data.data;
+			console.log(this.session);
 		},
 		async getPositions() {
 			console.log(this.user);
