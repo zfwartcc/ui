@@ -30,7 +30,7 @@
 					    </tr>
 				    </thead>
 				    <tbody class="position_list_row" v-if="sessions">
-					    <tr v-for="session in sessions" :key="session._id">
+					    <tr v-for="session in sortedSessions" :key="session._id">
 						    <td>{{ session.submitter.fname }} {{ session.submitter.lname }}</td> 
 						    <td>{{dtLong(session.startTime)}}</td>
 						    <td>{{dtLong(session.endTime)}}</td>
@@ -92,6 +92,9 @@ export default {
     },
     computed: {
         ...mapState('user', ['user']),
+        sortedSessions() {
+            return this.sessions.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+        }
     },
     methods: {
         prevDate() {

@@ -4,7 +4,7 @@
 			<span class="card-title">Schedule Online Session</span>
 			<div class="request_wrapper row row_no_margin">
 				<div class="col s12 l6 push-l6">
-					<p><b class="red-text">Important: </b> this is to post your planned online session. (Not Required) <br /><br />
+					<p><b class="red-text">Important: </b> this is to post your planned online session. (Not Required) Current Zulu time is listed below.<br /><br />
 					There is no guarantee that your session will be picked up by a member of the training staff. If a request you've made gets picked up, you are expected to show up.
 					Treat the times as your availability, mentors and instructors have the ability to modify them when they pick up the session. <br /><br />
 					Please make sure that you've studied the relevant training material, as per the Training Syllabus, before requesting a session.</p>
