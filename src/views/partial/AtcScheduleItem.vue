@@ -13,7 +13,8 @@
         </div>
         <div class="card-body">
           <p>{{ session.submitter.fname }} {{ session.submitter.lname }}</p>
-          <p>{{ convertTime(session.startTime) }}-{{ convertTime(session.endTime) }} {{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
+          <p>{{ convertTime2(session.startTime) }}-{{ convertTime(session.endTime) }}</p>
+          <p>{{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
         </div>
       </div>
     </div>
@@ -65,6 +66,14 @@ export default {
       offset = isDST ? -6 : offset;
       date = new Date(date.getTime() + offset * 60 * 60 * 1000);
       return date.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + (isDST ? " CDT" : " CST");
+    },
+    convertTime2(time) {
+      let date = new Date(time);
+      let offset = -5; // Default to CST
+      const isDST = date.toLocaleString("en-US", {timeZone: "America/Chicago"}).includes("CDT");
+      offset = isDST ? -6 : offset;
+      date = new Date(date.getTime() + offset * 60 * 60 * 1000);
+        return date.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
     }
   },
   watch: {
