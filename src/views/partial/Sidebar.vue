@@ -43,28 +43,34 @@
       <p class="as_of">As of {{ getZuluTime() }}z</p>
     </div>
     <div class="card">
-      <div class="card-content">
-        <span class="card-title"> Controller Schedule </span>
-        <div class="date-display">
-          <div class="date-container" style="float: left;">
-            <p>{{ formatDate(currentDate) }}</p>
-          </div>
-          <div class="button-container" style="margin-left: 220px;">
-            <button @click="previousDay">&lt</button>
-            <button @click="nextDay">&gt</button>
-          </div>
+  <div class="card-content">
+    <span class="card-title">Controller Schedule</span>
+    <div class="row">
+      <div class="col s6 center-align">
+        <p class="date-display">{{ formatDate(currentDate) }}</p>
+      </div>
+      <div class="col s6">
+        <div class="right-align">
+          <button class="btn waves-effect waves-light" @click="previousDay">
+            <i class="material-icons">keyboard_arrow_left</i>
+          </button>
+          <button class="btn waves-effect waves-light" @click="nextDay">
+            <i class="material-icons">keyboard_arrow_right</i>
+          </button>
         </div>
-          <AtcScheduleItem :currentDate="currentDate"></AtcScheduleItem>
       </div>
     </div>
-    <div class="card" v-if="user.isLoggedIn">
-      <div class="card-content">
-        <span class="card-title">
-          {{
-            new Date().toLocaleString("en-US", {
-              month: "long",
-              timeZone: "UTC",
-            })
+    <AtcScheduleItem :currentDate="currentDate"></AtcScheduleItem>
+  </div>
+</div>
+<div class="card" v-if="user.isLoggedIn">
+  <div class="card-content">
+    <span class="card-title">
+      {{
+        new Date().toLocaleString("en-US", {
+          month: "long",
+          timeZone: "UTC",
+        })
           }}
           Leaderboard
         </span>
@@ -283,4 +289,6 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
+
+
 </style>

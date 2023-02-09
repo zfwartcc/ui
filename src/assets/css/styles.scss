@@ -52,7 +52,20 @@ body {
 	margin: 0;
 	padding: 0;
 }
-
+.card-header {
+	padding-left: 3px;
+	font-size: 17px;
+  }
+  .card-body {
+	padding-left: 3px;
+	color:#41B6E6;
+	font-size: 17px;
+  }
+  .card-time {
+	padding-left: 3px;
+	color: gray;
+	font-size: 12px;
+  }
 .wrapper {
 	max-width: 1200px;
 	margin: 0 auto;

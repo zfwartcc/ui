@@ -3,11 +3,12 @@
 		<div class="card-content">
 			<div class="row row_no_margin">
 				<div class="card-title col s8"><span class="card-title">Controller Schedule</span></div>
-				<div class="col s4"><router-link to="/dash/scheduling/new"><span class="btn new_event_button right">Schedule</span></router-link><span class="btn new_event_button right" @click.native="nextDate">Next</span><span class="btn new_event_button right" @click.native="prevDate">Prev</span></div>
+                <div class="col s4"><router-link to="/dash/scheduling/new"><span class="btn new_event_button left schedule-button">Schedule</span></router-link><span class="btn new_event_button right" @click.native="nextDate">Next</span><span class="btn new_event_button right" @click.native="prevDate">Prev</span></div>
 			</div>
+            <p class="date">Current Selected Date {{ currentDate }} </p>
 		</div>
 		<div v-if="sessions === null">
-            <div class="card-content loading">
+            <div class="card-content loading">s
                 <Spinner />
             </div>
         </div>
@@ -18,7 +19,6 @@
                 </p>
             </div>
             <div class="table_wrapper" v-if="sessions && sessions.length !== 0">
-                <p class="date"> {{ currentDate }} </p>
                 <table>
                     <thead>
                         <tr>
@@ -177,4 +177,12 @@ table {
 		}
 	}
 }
+.date {
+    position: fixed;
+color: darkkhaki;
+}
+.schedule-button {
+  background-color: lightcoral;
+}
+
 </style>

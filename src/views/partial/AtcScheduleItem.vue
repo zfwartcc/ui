@@ -13,8 +13,10 @@
         </div>
         <div class="card-body">
           <p>{{ session.submitter.fname }} {{ session.submitter.lname }}</p>
-          <p>{{ convertTime2(session.startTime) }}-{{ convertTime(session.endTime) }}</p>
+       <div class="card-time">
+        <p>{{ convertTime2(session.startTime) }}-{{ convertTime(session.endTime) }}</p>
           <p>{{ new Date(session.startTime).toISOString().slice(11, 16) + "Z" }}-{{ new Date(session.endTime).toISOString().slice(11, 16) + "Z"}}</p>
+       </div>
         </div>
       </div>
     </div>
