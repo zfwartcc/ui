@@ -5,7 +5,7 @@
         <div>
 <router-link to="/"
           ><img class="mainLogo"
-          src="https://zauartcc.sfo3.digitaloceanspaces.com/site-logo/Main-Logo.png"
+          src="https://i.imgur.com/mPCVjFc.png"
             draggable="false"
             height="165"
         /></router-link>
@@ -274,7 +274,7 @@ export default {
 }
 
 nav {
-  background-color:#E4002B;
+  background-color:#002f7f;
 }
 
 .user_dropdown_arrow {

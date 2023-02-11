@@ -39,62 +39,50 @@ import parse from 'metar-parser';
 export default {
   data() {
     return {
-      icao: ['KORD', 'KMDW', 'KMKE', 'KRFD', 'KCID'],
+      icao: ['KDFW', 'KDAL', 'KOKC'],
       stations: {
-        KORD: {
-          icao: "KORD",
-          fullName: "Chicago OHare International Airport",
+        KDFW: {
+          icao: "KDFW",
+          fullName: "Dallas-Fort Worth International Airport",
           metar: null, 
           parsedMetar: null,
           configs: {
             landing: {
-              W: '28C/27C/27R',
-              E: '09C/09L/10C/10R',
-              NE:'4R',
-              SW:'22L/22R'
+              N: '31R/35C/35R/36L',
+              S: '13R/17L/17C/18R'
 
             }, 
             departing: {
-              W: '28R/27L/22L',
-              E: '10L/09R',
-              NE:'4L',
-              SW:'22L'
+              N: '36R/35L',
+              S: '17R/18L'
             }
           },
           getLanding: function() {
-            if (this.parsedMetar.wind.speedKt <= 9) {
-                return this.configs.landing.W;
-            } else if ((this.parsedMetar.wind.direction >= 180 && this.parsedMetar.wind.direction <= 360 && this.parsedMetar.wind.speedKt >= 10 && this.parsedMetar.wind.speedKt <=24) || (this.parsedMetar.wind.direction >= 230 && this.parsedMetar.wind.direction <= 330 && this.parsedMetar.wind.speedKt >= 25)) {
-                return this.configs.landing.W;
-            } else if ((this.parsedMetar.wind.direction >= 10 && this.parsedMetar.wind.direction <= 170 && this.parsedMetar.wind.speedKt >= 10 && this.parsedMetar.wind.speedKt <=24) || (this.parsedMetar.wind.direction >= 50 && this.parsedMetar.wind.direction <= 150 && this.parsedMetar.wind.speedKt >= 25)) {
-                return this.configs.landing.E;
-            } else if (this.parsedMetar.wind.direction >= 340 || this.parsedMetar.wind.direction <= 40 && this.parsedMetar.wind.speedKt >= 25) {
-                return this.configs.landing.NE;
-            } else if (this.parsedMetar.wind.direction >= 160 && this.parsedMetar.wind.direction <= 220 && this.parsedMetar.wind.speedKt >= 25) {
-                return this.configs.landing.SW;
+            if (this.parsedMetar.wind.speedKt <= 5) {
+                return this.configs.landing.S;
+            } else if (this.parsedMetar.wind.direction >= 90 && this.parsedMetar.wind.direction <= 270 && this.parsedMetar.wind.speedKt >= 6) {
+                return this.configs.landing.S;
+            } else if ((this.parsedMetar.wind.direction < 90 || this.parsedMetar.wind.direction > 270) && this.parsedMetar.wind.speedKt >= 6) {
+                return this.configs.landing.N;
             } else {
-                return this.configs.landing.W;
+                return this.configs.landing.S;
             }
           },
           getDeparting: function() {
-            if (this.parsedMetar.wind.speedKt <= 9) {
-                return this.configs.departing.W;
-            } else if ((this.parsedMetar.wind.direction >= 180 && this.parsedMetar.wind.direction <= 360 && this.parsedMetar.wind.speedKt >= 10 && this.parsedMetar.wind.speedKt <=24) || (this.parsedMetar.wind.direction >= 230 && this.parsedMetar.wind.direction <= 330 && this.parsedMetar.wind.speedKt >= 25)) {
-                return this.configs.departing.W;
-            } else if ((this.parsedMetar.wind.direction >= 10 && this.parsedMetar.wind.direction <= 170 && this.parsedMetar.wind.speedKt >= 10 && this.parsedMetar.wind.speedKt <=24) || (this.parsedMetar.wind.direction >= 50 && this.parsedMetar.wind.direction <= 150 && this.parsedMetar.wind.speedKt >= 25)) {
-                return this.configs.departing.E;
-            } else if (this.parsedMetar.wind.direction >= 340 || this.parsedMetar.wind.direction <= 40 && this.parsedMetar.wind.speedKt >= 25) {
-                return this.configs.departing.NE;
-            } else if (this.parsedMetar.wind.direction >= 160 && this.parsedMetar.wind.direction <= 220 && this.parsedMetar.wind.speedKt >= 25) {
-                return this.configs.departing.SW;
+            if (this.parsedMetar.wind.speedKt <= 5) {
+                return this.configs.departing.S;
+            } else if (this.parsedMetar.wind.direction >= 90 && this.parsedMetar.wind.direction <= 270 && this.parsedMetar.wind.speedKt >= 6) {
+                return this.configs.departing.S;
+            } else if ((this.parsedMetar.wind.direction < 90 || this.parsedMetar.wind.direction > 270) && this.parsedMetar.wind.speedKt >= 6) {
+                return this.configs.departing.N;
             } else {
-                return this.configs.departing.W;
+                return this.configs.departing.S;
             }
           }
         }, 
-        KMDW: {
-          icao: "KMDW",
-          fullName: "Chicago Midway International Airport",
+        KDAL: {
+          icao: "KDAL",
+          fullName: "Dallas Love Field Airport",
           metar: null, 
           parsedMetar: null,
           configs: {
@@ -138,9 +126,9 @@ export default {
             }
           }
         },
-        KMKE: {
-          icao: "KMKE",
-          fullName: "General Mitchell International Airport",
+        KOKC: {
+          icao: "KOKC",
+          fullName: "Will Rogers World Airport",
           metar: null, 
           parsedMetar: null,
           configs: {
@@ -198,7 +186,7 @@ export default {
             }
           }
         }, 
-        KRFD: {
+        /*KRFD: {
           icao: "KRFD",
           fullName: "Chicago Rockford International Airport",
           metar: null, 
@@ -261,7 +249,7 @@ export default {
               else return this.configs.departing.NE;
             }
           }
-        }
+        }*/
       },
       numStationsLoaded: 0
     };

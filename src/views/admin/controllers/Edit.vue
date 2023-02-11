@@ -49,18 +49,18 @@
 								<span id="app" :class="{active: form.certs.app}" class="cert cert_minor"
 									@click="toggleCert">APP</span>
 							</div>
-							<label for="chicago_certs_container" class="active">KORD & Center Certifications:</label>
-							<div id="chicago_certs_container" class="cert_container">
-								<span id="orddel" :class="{active: form.certs.orddel}" class="cert cert_major"
-									@click="toggleCert">ORD_DEL</span>
-								<span id="ordgnd" :class="{active: form.certs.ordgnd}" class="cert cert_major"
-									@click="toggleCert">ORD_GND</span>
-								<span id="ordtwr" :class="{active: form.certs.ordtwr}" class="cert cert_major"
-									@click="toggleCert">ORD_TWR</span>
-								<span id="ordapp" :class="{active: form.certs.ordapp}" class="cert cert_major"
-									@click="toggleCert">ORD_APP</span>
-								<span id="zau" :class="{active: form.certs.zau}" class="cert cert_center"
-									@click="toggleCert">CHI_CTR</span>
+							<label for="fort_worth_certs_container" class="active">KDFW & Center Certifications:</label>
+							<div id="fort_worth_certs_container" class="cert_container">
+								<span id="dfwdel" :class="{active: form.certs.dfwdel}" class="cert cert_major"
+									@click="toggleCert">DFW_DEL</span>
+								<span id="dfwgnd" :class="{active: form.certs.dfwgnd}" class="cert cert_major"
+									@click="toggleCert">DFW_GND</span>
+								<span id="dfwtwr" :class="{active: form.certs.dfwtwr}" class="cert cert_major"
+									@click="toggleCert">DFW_TWR</span>
+								<span id="regapp" :class="{active: form.certs.regapp}" class="cert cert_major"
+									@click="toggleCert">REG_APP</span>
+								<span id="zfw" :class="{active: form.certs.zfw}" class="cert cert_center"
+									@click="toggleCert">FTW_CTR</span>
 								<!-- <span id="zmo" :class="{active: form.certs.zmo}" class="cert cert_center"
 									@click="toggleCert">ZMO_CTR</span> -->
 							</div>
@@ -75,16 +75,16 @@
 								<span id="apps" :class="{active: form.certs.apps}" class="cert cert_solon"
 									@click="toggleCert">APP</span>
 								<br/>
-								<span id="orddels" :class="{active: form.certs.orddels}" class="cert cert_solom"
-									@click="toggleCert">ORD_DEL</span>
-								<span id="ordgnds" :class="{active: form.certs.ordgnds}" class="cert cert_solom"
-									@click="toggleCert">ORD_GND</span>
-								<span id="ordtwrs" :class="{active: form.certs.ordtwrs}" class="cert cert_solom"
-									@click="toggleCert">ORD_TWR</span>
-								<span id="ordapps" :class="{active: form.certs.ordapps}" class="cert cert_solom"
-									@click="toggleCert">ORD_APP</span>
-								<span id="zaus" :class="{active: form.certs.zaus}" class="cert cert_solom"
-									@click="toggleCert">CHI_CTR</span>
+								<span id="dfwdels" :class="{active: form.certs.dfwdels}" class="cert cert_solom"
+									@click="toggleCert">DFW_DEL</span>
+								<span id="dfwgnds" :class="{active: form.certs.dfwgnds}" class="cert cert_solom"
+									@click="toggleCert">DFW_GND</span>
+								<span id="dfwtwrs" :class="{active: form.certs.dfwtwrs}" class="cert cert_solom"
+									@click="toggleCert">DFW_TWR</span>
+								<span id="regapps" :class="{active: form.certs.regapps}" class="cert cert_solom"
+									@click="toggleCert">REG_APP</span>
+								<span id="zfws" :class="{active: form.certs.zfws}" class="cert cert_solom"
+									@click="toggleCert">FTW_CTR</span>
 
 							</div>
 						</div>
@@ -140,20 +140,20 @@ export default {
 				oi: '',
 				vis: false,
 				certs: {
-					zau: false,
-					ordapp: false,
-					ordtwr: false,
-					ordgnd: false,
-					orddel: false,
+					zfw: false,
+					regapp: false,
+					dfwtwr: false,
+					dfwgnd: false,
+					dfwdel: false,
 					app: false,
 					twr: false,
 					gnd: false,
 					del: false,
-					zaus: false,
-					ordapps: false,
-					ordtwrs: false,
-					ordgnds: false,
-					orddels: false,
+					zfws: false,
+					regapps: false,
+					dfwtwrs: false,
+					dfwgnds: false,
+					dfwdels: false,
 					apps: false,
 					twrs: false,
 					gnds: false,

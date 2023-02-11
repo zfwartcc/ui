@@ -2,7 +2,7 @@
   <div>
     <div class="card home_intro">
       <div class="card-content">
-        <span class="card-title">Welcome to Chicago ARTCC</span>
+        <span class="card-title">Welcome to Fort Worth ARTCC</span>
         <p>
           Virtual Chicago ARTCC provides air traffic control services for the Chicago Metro area, Northwestern Indiana, Central Illinois, Eastern Iowa, Southern Wisconsin, and Southwestern Michgan. Our goal is to provide the most realistic experience to our pilots, while maintaining professionalism and courtesy. Chicago offers a wealth of difference for new controllers, and will proivde a good challenge for any aspiring controllers. Join our family today!
         </p>
