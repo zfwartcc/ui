@@ -274,7 +274,7 @@ export default {
 }
 
 nav {
-  background-color:#002f7f;
+  background-color:#002868;
 }
 
 .user_dropdown_arrow {
