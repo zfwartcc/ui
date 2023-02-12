@@ -4,7 +4,11 @@
       <div class="card-content">
         <span class="card-title">Welcome to Fort Worth ARTCC</span>
         <p>
-          Virtual Chicago ARTCC provides air traffic control services for the Chicago Metro area, Northwestern Indiana, Central Illinois, Eastern Iowa, Southern Wisconsin, and Southwestern Michgan. Our goal is to provide the most realistic experience to our pilots, while maintaining professionalism and courtesy. Chicago offers a wealth of difference for new controllers, and will proivde a good challenge for any aspiring controllers. Join our family today!
+          The Fort Worth ARTCC covers parts of Texas, Oklahoma, New Mexico, Louisiana, and Arkansas, with a square mileage of over 147,000. Our goal and mission is to provide professional air traffic control services, foster a welcoming community, and enjoy this hobby to it's greatest extent possible. Students get a unique experience here with our student:instructor assignment program and get the advantage of consistent instruction and scheduling once assigned an instructor. We hope to see you on the scopes soon!
+        </p>
+      <br>
+        <p>
+          “Texas is neither southern nor western. Texas is Texas.”
         </p>
         <div class="visit" v-if="!user.isLoggedIn || (!user.data.vis && !user.data.isMem)">
           <p>

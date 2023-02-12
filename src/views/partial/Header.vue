@@ -1,11 +1,11 @@
     <template>
   <header>
-    <div id="header_hero" :class="`hero${number === 69 ? '_aprilfools' : '6'}`">
+    <div id="header_hero" :class="`hero${number === 69 ? '_aprilfools' : '7'}`">
       <div class="wrapper">
         <div>
 <router-link to="/"
           ><img class="mainLogo"
-          src="https://i.imgur.com/mPCVjFc.png"
+          src="https://i.imgur.com/eau6zIH.png"
             draggable="false"
             height="165"
         /></router-link>
@@ -189,10 +189,10 @@ export default {
 <style scoped lang="scss">
 #header_hero {
   background-size: cover;
-  background-position: bottom 57% right 50%;
+  background-position: bottom 95% right 50%;
   background-repeat: no-repeat;
   max-width: 3840px;
-  height: 300px;
+  height: 350px;
   position: relative;
   resize: none; 
   display: flex;
@@ -237,6 +237,10 @@ export default {
     background-image: url('@/assets/images/hero/sandias.jpg');
   }
 
+  &.hero7 {
+    background-image: url('@/assets/images/hero/Dallas6.png');
+  }
+
   &.hero_aprilfools {
     background-image: url('@/assets/images/hero/bb.jpg');
   }
@@ -246,13 +250,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    left: 15%;
+    top: 2.0em;
 
     a {
       display: block;
 
       img {
-        height: 200px;
+        height: 225px;
       }
     }
 

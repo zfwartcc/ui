@@ -6,7 +6,7 @@
         <p>This site works best in Google Chrome, Mozilla Firefox, and Microsoft Edge.</p>
         <p>If you are still using Internet Explorer, move on.</p>
       </div>
-      <img src="https://zauartcc.sfo3.digitaloceanspaces.com/site-logo/Footer-Logo.png" alt="" draggable="false" height="115">
+      <img src="https://i.imgur.com/Ed7kIT1.png" alt="" draggable="false" height="115">
     </div>
     <div class="footer-copyright">
       <div class="wrapper">
